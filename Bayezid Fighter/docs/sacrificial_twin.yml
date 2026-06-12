@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  sacrificial_twin:
+    image: ubuntu:24.04
+    container_name: bayezid_digital_twin
+    privileged: true # Required for eBPF/XDP testing
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    command: >
+      bash -c "
+      apt-get update && apt-get install -y iproute2 clang llvm libbpf-dev sudo sshpass openssh-server netcat-traditional &&
+      mkdir -p /run/sshd &&
+      echo 'root:password123' | chpasswd &&
+      sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
+      /usr/sbin/sshd -D
+      "
+    ports:
+      - "2223:22" # SSH exposed for the Breacher agent
+    networks:
+      - swarm_net
+    volumes:
+      - ./ebpf_module:/ebpf_module # Pass the source code for in-container compilation
+
+networks:
+  swarm_net:
+    driver: bridge

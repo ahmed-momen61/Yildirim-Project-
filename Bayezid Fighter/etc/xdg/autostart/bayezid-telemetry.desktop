@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Bayezid Telemetry
+Comment=Tail backend logs for telemetry monitoring
+Exec=xfce4-terminal --title "Bayezid Telemetry" -e "journalctl -fu bayezid-backend"
+OnlyShowIn=XFCE;
+StartupNotify=false
+Terminal=false
+Hidden=false

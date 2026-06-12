@@ -1,0 +1,65 @@
+{
+  "seed": "black_hat_actor",
+  "seedType": "alias",
+  "graph": {
+    "nodes": [
+      {
+        "id": "alias::black_hat_actor",
+        "type": "alias",
+        "value": "black_hat_actor",
+        "confidence": 1,
+        "sources": [
+          "investigation_seed"
+        ],
+        "firstSeen": 1780163721950
+      }
+    ],
+    "links": []
+  },
+  "artifacts": {
+    "ips": [],
+    "domains": [],
+    "emails": [],
+    "aliases": [
+      "black_hat_actor"
+    ],
+    "darkWebMentions": [],
+    "gitFindings": [],
+    "breachHits": {
+      "hibp": [],
+      "hudson_rock": [],
+      "flare": []
+    },
+    "hypotheses": {
+      "seed": "black_hat_actor",
+      "hypotheses": {
+        "primary_hypothesis": {
+          "statement": "Attributed investigation on alias black_hat_actor. No high-confidence anomalies found.",
+          "confidence": 0.3,
+          "evidence_chain": [
+            "Total email pivots: 0",
+            "Total dark web hits: 0",
+            "Total breach repository records: 0"
+          ],
+          "gaps": [
+            "Awaiting active network validation log correlation."
+          ]
+        },
+        "alternative_hypotheses": [],
+        "recommended_next_pivots": [
+          "Validate target external endpoints on censys and shodan",
+          "Cross-reference source IP indicators in MISP and OpenCTI repositories"
+        ],
+        "actor_profile": {
+          "probable_origin_region": "unknown",
+          "technical_skill_level": "intermediate",
+          "motivation_hypothesis": "espionage",
+          "infrastructure_pattern": "Observed utilizing compromised cloud VPS hosts or VPN node networks"
+        },
+        "confidence_basis": "Heuristic estimation computed locally due to Ollama service offline status"
+      },
+      "generatedAt": "2026-05-30T17:55:55.232Z"
+    }
+  },
+  "investigatedAt": "2026-05-30T17:55:55.243Z"
+}

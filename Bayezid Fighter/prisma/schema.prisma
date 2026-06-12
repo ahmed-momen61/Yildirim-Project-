@@ -1,0 +1,231 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  extensions = [vector]
+}
+
+model Alert {
+  id                 String   @id @default(uuid())
+  sourceIp           String
+  targetServer       String
+  eventType          String
+  attempts           Int      @default(1)
+  
+  // Basic Analysis
+  severity           String?
+  threatType         String?
+  recommendedAction  String?
+  status             String   @default("NEW")
+  
+  confidenceType     String   @default("PROBABILISTIC")
+  
+  // Advanced AI & CTI Analysis
+  cvssScore          String?
+  cweId              String?
+  mitreTactic        String?
+  mitreTechnique     String?
+  killChainPhase     String?
+  predictedSteps     String?
+  businessContinuity String?
+  osintData          Json?
+  messages           ChatMessage[]
+  
+  createdAt          DateTime @default(now())
+  chats              IncidentChat[]
+  playbookDetails    String?
+  investigation_report Json?
+  embedding          Unsupported("vector(3072)")?
+}
+
+model Playbook {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  actions     Json
+  createdAt   DateTime @default(now())
+}
+
+model RedSwarmLog {
+  id              Int      @id @default(autoincrement())
+  targetIp        String
+  agentName       String   // Scout, Breacher, Phantom, Chameleon
+  assignedTask    String   @db.Text
+  executedCommand String?  @db.Text
+  executionOutput String?  @db.Text 
+  isSuccess       Boolean?
+  createdAt       DateTime @default(now())
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  sender    String   
+  role      String   
+  
+  alertId   String
+  alert     Alert    @relation(fields: [alertId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+}
+
+model IncidentChat {
+  id        String   @id @default(uuid())
+  alertId   String
+  sender    String   
+  message   String
+  createdAt DateTime @default(now())
+  
+  alert     Alert    @relation(fields: [alertId], references: [id])
+}
+
+model VulnerabilityBridge {
+  id                String   @id @default(uuid())
+  vulnName          String
+  severity          String
+  detectedBy        String
+  targetIp          String
+  evidence          String
+  fixType           String?
+  suggestedFix      String?
+  status            String   @default("PENDING_REVIEW")
+  userComments      String?
+  ticketId          String?
+  createdAt         DateTime @default(now())
+}
+
+model User {
+  id             String   @id @default(uuid())
+  username       String   @unique
+  passwordHash   String   @default("") // Added for Phase 1 PBKDF2 authentication
+  publicKey      String?  @db.Text // Added for Phase 2 RSA-256 Operator Approval
+  role           String   @default("JUNIOR_ANALYST") // JUNIOR_ANALYST, SENIOR_ANALYST, ADMIN
+  trustScore     Int      @default(50)               // من 0 لـ 100، بيزيد ويقل حسب قراراته
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model EvidenceVault {
+  id             String   @id @default(uuid())
+  incidentId     String   // مربوط بالـ Alert أو الـ Vulnerability
+  evidenceType   String   // PAYLOAD, LOG, PCAP, SCREENSHOT
+  encryptedData  String   // الداتا متشفره بـ AES-256
+  iv             String   // الـ Initialization Vector لفك التشفير
+  sha256Hash     String   @unique // البصمة الرقمية لضمان عدم التلاعب
+  collectedBy    String   // اسم الـ Agent اللي جاب الدليل (مثلاً Detective)
+  timestamp      DateTime @default(now())
+}
+
+model SystemConfig {
+  id                    String   @id @default(uuid())
+  key                   String   @unique
+  value                 String
+  autonomyMode          String   @default("SNIPER")
+  emergencyTtlMinutes   Int      @default(5)
+  dualRedTeamMode       String   @default("MODE_A")
+  updatedAt             DateTime @updatedAt
+}
+
+model AuditLog {
+  id             String   @id @default(uuid())
+  userId         String?
+  action         String
+  aiVetoTriggered Boolean @default(false)
+  aiReasoning    String?
+  timestamp      DateTime @default(now())
+}
+
+model RoeToken {
+  id              String    @id @default(uuid())
+  issuedToUserId  String
+  targetScopeHash String
+  targetCidr      String?
+  allowedTactics  String[]
+  allowedModules  String[]
+  notBefore       DateTime
+  expiresAt       DateTime
+  maxOperations   Int       @default(10)
+  operationsUsed  Int       @default(0)
+  salt            String
+  revokedAt       DateTime?
+  createdBy       String
+  createdAt       DateTime  @default(now())
+  ledgerEntries   OperationLedger[]
+}
+
+model OperationLedger {
+  id           String    @id @default(uuid())
+  roeTokenId   String?
+  roeToken     RoeToken? @relation(fields: [roeTokenId], references: [id])
+  agentName    String
+  targetIp     String
+  commandHash  String
+  outcome      String
+  veritasBlock Int?
+  timestamp    DateTime  @default(now())
+}
+
+model WingmanSession {
+  id           String   @id @default(uuid())
+  userId       String
+  messages     Json     // Array of {role, content, toolCalls, timestamp}
+  styleProfile Json?    // Phase 5: Learned operator preferences
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WingmanEvolutionLog {
+  id             String   @id @default(uuid())
+  fromPhase      String
+  toPhase        String
+  loraRunCount   Int
+  totalSamples   Int
+  evalLoss       Float
+  baselineLoss   Float
+  triggeredBy    String   // "auto" | "operator_command" | "telegram_approve"
+  notes          String?
+  timestamp      DateTime @default(now())
+}
+
+model DecoySession {
+  id           String   @id @default(uuid())
+  triggerId    String  // alertId that triggered this decoy
+  triggerIp    String
+  serviceType  String
+  containerId  String
+  pcapPath     String?
+  iocCount     Int      @default(0)
+  outcome      String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+  terminatedAt DateTime?
+}
+
+model HitlRequest {
+  id               String    @id @default(uuid())
+  requestingEngine String
+  tool             String
+  argsJson         String
+  riskContext      String
+  decision         String    @default("PENDING")
+  decidedBy        String?
+  decidedAt        DateTime?
+  executionResult  String?
+  createdAt        DateTime  @default(now())
+}
+
+model PluginInvocation {
+  id           String    @id @default(uuid())
+  pluginName   String
+  capabilityId String
+  inputJson    String
+  outputJson   String?
+  invokedBy    String
+  status       String    @default("PENDING")
+  durationMs   Int?
+  timestamp    DateTime  @default(now())
+}

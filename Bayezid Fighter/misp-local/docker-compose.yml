@@ -1,0 +1,46 @@
+
+services:
+  misp:
+    image: coolacid/misp-docker:core-latest
+    container_name: bayezid_misp
+    depends_on:
+      - redis
+      - db
+    ports:
+      - "8088:80"
+      - "8443:443"
+    volumes:
+      - ./ssl:/etc/ssl/certs
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp_secure_password
+      - REDIS_FQDN=redis
+      - MISP_BASEURL=https://localhost:8443
+      - MISP_ADMIN_EMAIL=admin@admin.test
+      - MISP_ADMIN_PASSPHRASE=admin@admin.test@BYZ
+      - TIMEZONE=Africa/Cairo
+      - CRON_USER_ID=1
+      - INIT=true
+
+  db:
+    image: mysql:8.0
+    container_name: bayezid_misp_db
+    environment:
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp_secure_password
+      - MYSQL_ROOT_PASSWORD=misp_root_password
+    volumes:
+      - misp-db:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: bayezid_misp_redis
+    volumes:
+      - misp-redis:/data
+
+volumes:
+  misp-db:
+  misp-redis:

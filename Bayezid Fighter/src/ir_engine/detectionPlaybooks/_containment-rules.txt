@@ -1,0 +1,6 @@
+[CONTAINMENT RULES OF ENGAGEMENT]
+1. Never block internal management subnets (e.g., 10.0.0.1/24).
+2. For Level 1 Threats (Score < 50): Monitor only.
+3. For Level 2 Threats (Score 50-89): Block external source IPs via iptables.
+4. For Level 3 Threats (Score 90+): Isolate the affected asset from the network immediately.
+5. All containment actions MUST pass the Causal Engine Gate.

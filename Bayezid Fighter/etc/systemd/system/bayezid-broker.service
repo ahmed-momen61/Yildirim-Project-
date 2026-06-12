@@ -1,0 +1,17 @@
+[Unit]
+Description=Bayezid OS Execution Broker
+After=network-online.target redis.service
+Before=bayezid-backend.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/bayezid
+ExecStart=/usr/bin/node src/broker/os_execution_broker.js
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bayezid-broker
+
+[Install]
+WantedBy=multi-user.target

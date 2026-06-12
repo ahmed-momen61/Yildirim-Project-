@@ -1,0 +1,18 @@
+node_modules
+.env
+.git
+.gitignore
+
+# Production Ignore
+/tests/
+jest.config.js
+pytest.ini
+scripts/clean_env.js
+__pycache__/
+.pytest_cache/
+coverage/
+.nyc_output/
+*.sqlite
+*.db
+*.pkl
+*.pth

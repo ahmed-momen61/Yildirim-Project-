@@ -1,0 +1,19 @@
+[Unit]
+Description=Bayezid SOC Backend
+After=network-online.target wazuh-manager.service redis.service postgresql.service
+Wants=bayezid-python-ml.service
+
+[Service]
+Type=notify
+WorkingDirectory=/opt/bayezid
+EnvironmentFile=/opt/bayezid/.env
+ExecStartPre=/opt/bayezid/scripts/wait-for-ml.sh
+ExecStart=/usr/bin/node src/api/server.js
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bayezid-backend
+
+[Install]
+WantedBy=multi-user.target

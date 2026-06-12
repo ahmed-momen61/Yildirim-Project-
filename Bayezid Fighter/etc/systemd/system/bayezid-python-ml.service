@@ -1,0 +1,16 @@
+[Unit]
+Description=Bayezid Python ML Engine
+After=network-online.target redis.service postgresql.service
+
+[Service]
+Type=forking
+WorkingDirectory=/opt/bayezid/ml_engine
+ExecStart=/opt/bayezid/scripts/start-ml-daemons.sh
+ExecStartPost=/opt/bayezid/scripts/wait-for-ml.sh
+Restart=on-failure
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bayezid-python-ml
+
+[Install]
+WantedBy=multi-user.target

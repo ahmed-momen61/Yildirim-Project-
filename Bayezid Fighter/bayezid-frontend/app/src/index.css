@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 4%;
+    --foreground: 210 40% 96%;
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 96%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 187 100% 50%;
+    --primary-foreground: 222 47% 4%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 55%;
+    --accent: 348 100% 50%;
+    --accent-foreground: 210 40% 96%;
+    --destructive: 348 100% 50%;
+    --destructive-foreground: 210 40% 96%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 187 100% 50%;
+    --radius: 0.5rem;
+    --sidebar-background: 222 47% 5%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 187 100% 50%;
+    --sidebar-primary-foreground: 222 47% 4%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 187 100% 50%;
+
+    /* Cyberpunk Custom Colors */
+    --neon-blue: 187 100% 50%;
+    --neon-red: 348 100% 50%;
+    --neon-green: 142 100% 50%;
+    --neon-amber: 45 100% 50%;
+    --slate-deep: 222 47% 4%;
+    --slate-panel: 222 47% 8%;
+    --slate-border: 217 33% 17%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(222 47% 4%);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(217 33% 17%);
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(187 100% 30%);
+  }
+}
+
+@layer base {
+  @keyframes scanline {
+    0% {
+      top: -10%;
+    }
+    100% {
+      top: 110%;
+    }
+  }
+}
+
+@layer components {
+  .cyber-border-blue {
+    @apply border border-cyan-500/30;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.15), inset 0 0 8px rgba(0, 212, 255, 0.05);
+  }
+
+  .cyber-border-red {
+    @apply border border-rose-500/30;
+    box-shadow: 0 0 8px rgba(255, 0, 64, 0.15), inset 0 0 8px rgba(255, 0, 64, 0.05);
+  }
+
+  .cyber-glow-blue {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.6), 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-glow-red {
+    text-shadow: 0 0 10px rgba(255, 0, 64, 0.6), 0 0 20px rgba(255, 0, 64, 0.3);
+  }
+
+  .cyber-panel {
+    @apply bg-slate-900/80 backdrop-blur-sm;
+    border: 1px solid hsl(217 33% 17%);
+  }
+
+  .cyber-grid-bg {
+    background-image:
+      linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .terminal-text {
+    @apply text-xs leading-relaxed;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+    box-shadow: 0 0 6px currentColor;
+  }
+
+  .nav-item-active {
+    @apply bg-cyan-500/10 border-r-2 border-cyan-400 text-cyan-400;
+  }
+
+  .nav-item-inactive {
+    @apply text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 border-r-2 border-transparent;
+  }
+
+  .alert-severity-critical {
+    @apply text-rose-400 border-l-2 border-rose-500 bg-rose-500/5;
+  }
+
+  .alert-severity-high {
+    @apply text-amber-400 border-l-2 border-amber-500 bg-amber-500/5;
+  }
+
+  .alert-severity-medium {
+    @apply text-cyan-400 border-l-2 border-cyan-500 bg-cyan-500/5;
+  }
+
+  .alert-severity-low {
+    @apply text-emerald-400 border-l-2 border-emerald-500 bg-emerald-500/5;
+  }
+}
+
+@layer utilities {
+  .text-neon-blue {
+    color: hsl(187 100% 50%);
+  }
+
+  .text-neon-red {
+    color: hsl(348 100% 50%);
+  }
+
+  .bg-neon-blue {
+    background-color: hsl(187 100% 50%);
+  }
+
+  .bg-neon-red {
+    background-color: hsl(348 100% 50%);
+  }
+
+  .border-neon-blue {
+    border-color: hsl(187 100% 50%);
+  }
+
+  .border-neon-red {
+    border-color: hsl(348 100% 50%);
+  }
+}

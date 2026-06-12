@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ML Engine Monitor
+Comment=tmux logs monitor for GNN, Causal, and ML Sniper
+Exec=xfce4-terminal --title "ML Engine Monitor" -e "/opt/bayezid/scripts/ml-monitor.sh"
+OnlyShowIn=XFCE;
+StartupNotify=false
+Terminal=false
+Hidden=false

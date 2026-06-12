@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Wazuh Sensor Console
+Comment=Launch Wazuh CLI Console
+Exec=xfce4-terminal --title "Wazuh Sensor Console" -e "/opt/bayezid/scripts/wazuh-console.sh"
+OnlyShowIn=XFCE;
+StartupNotify=false
+Terminal=false
+Hidden=false

@@ -1,0 +1,20 @@
+node_modules
+.env
+/generated/prisma
+bayezid_master.key
+.claude/
+verification_key.json
+sandbox/
+brain_training_data/*.jsonl
+
+/archive_legacy_tests/
+/reports/
+telemetry.db
+
+# Production Ignore
+/tests/
+jest.config.js
+pytest.ini
+scripts/clean_env.js
+*.pkl
+*.pth

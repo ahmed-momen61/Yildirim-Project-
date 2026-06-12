@@ -1,0 +1,16 @@
+[Unit]
+Description=Bayezid Self-Healing Validation Loop
+After=network-online.target redis.service postgresql.service bayezid-backend.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/bayezid
+ExecStart=/usr/bin/node src/broker/validation_loop.js
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bayezid-validation
+
+[Install]
+WantedBy=multi-user.target

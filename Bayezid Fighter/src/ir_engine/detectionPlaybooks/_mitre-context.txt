@@ -1,0 +1,7 @@
+[MITRE ATT&CK CONTEXT]
+Tactics: Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command and Control, Exfiltration, Impact.
+
+When analyzing this threat, specifically consider the following:
+- Are there indicators of lateral movement (T1021)?
+- Is there an attempt to escalate privileges (T1548)?
+- Are defense evasion techniques being employed (T1070)?
