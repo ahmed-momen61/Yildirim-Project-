@@ -68,17 +68,21 @@ The platform has been heavily augmented with highly advanced evolutionary phases
 
 * **Domain-Driven Architecture**: The ecosystem has achieved enterprise scale. Over 70 chaotic core modules have been surgically decoupled into isolated domains (`/src/core_ai/`, `/src/blue_swarm/`, `/src/crypto/`, `/src/memory_systems/`, etc.), proving zero `MODULE_NOT_FOUND` exceptions and pure scaling capability.
 
-* **Centralized Prisma Connection Pooling**: Surgically refactored the database architecture by consolidating database client instances under a single centralized client ([prismaClient.js](file:///c:/Users/ahmed/OneDrive/Documents/GitHub/Bayezid-Fighter-SOAR-0.3.0-/Bayezid%20Fighter/src/api/prismaClient.js)). This caps concurrent pools and resolves database connection pool exhaustion/timeout crashes when querying remote database clusters.
+* **Centralized Prisma Connection Pooling**: Surgically refactored the database architecture by consolidating database client instances under a single centralized client (`prismaClient.js`). This caps concurrent pools and resolves database connection pool exhaustion/timeout crashes when querying remote database clusters.
 
-* **PowerShell Windows Daemon Spawning & Teardown**: Re-engineered the daemon spawning pipeline ([pythonManager.js](file:///c:/Users/ahmed/OneDrive/Documents/GitHub/Bayezid-Fighter-SOAR-0.3.0-/Bayezid%20Fighter/src/core_ai/pythonManager.js)) to spawn the 4 Python ML services concurrently inside independent, popped-up console windows using PowerShell's `Start-Process -Wait` cmdlet. This solves path-quoting and argument-splitting errors on Windows workspaces containing spaces, prevents rapid crash-restart loops, and hooks into the server's `SIGINT` handler for automated, graceful window cleanup.
+* **PowerShell Windows Daemon Spawning & Teardown**: Re-engineered the daemon spawning pipeline (`pythonManager.js`) to spawn the 4 Python ML services concurrently inside independent, popped-up console windows using PowerShell's `Start-Process -Wait` cmdlet. This solves path-quoting and argument-splitting errors on Windows workspaces containing spaces, prevents rapid crash-restart loops, and hooks into the server's `SIGINT` handler for automated, graceful window cleanup.
 
-* **ChromaDB v2 Migration**: Migrated all vector memory retrieval systems in [chromaService.js](file:///c:/Users/ahmed/OneDrive/Documents/GitHub/Bayezid-Fighter-SOAR-0.3.0-/Bayezid%20Fighter/src/memory_systems/chromaService.js) to consume ChromaDB's v2 REST API path specification, mapping it onto port `8004` to avoid port binding conflicts with the ML Sniper (port `8000`).
+* **ChromaDB v2 Migration**: Migrated all vector memory retrieval systems in `chromaService.js` to consume ChromaDB's v2 REST API path specification, mapping it onto port `8004` to avoid port binding conflicts with the ML Sniper (port `8000`).
 
-* **WebSocket Broadcast Batching**: Upgraded [notificationService.js](file:///c:/Users/ahmed/OneDrive/Documents/GitHub/Bayezid-Fighter-SOAR-0.3.0-/Bayezid%20Fighter/src/api/notificationService.js) to buffer real-time alerts and broadcast them to Socket.IO clients in 1-second batches (`broadcastAlert`/`initWsBatching`), preventing socket flooding on high-velocity telemetry events.
+* **WebSocket Broadcast Batching**: Upgraded `notificationService.js` to buffer real-time alerts and broadcast them to Socket.IO clients in 1-second batches (`broadcastAlert`/`initWsBatching`), preventing socket flooding on high-velocity telemetry events.
 
-* **Linux Telemetry Streamer**: Added a dedicated telemetry daemon ([linuxTelemetryDaemon.js](file:///c:/Users/ahmed/OneDrive/Documents/GitHub/Bayezid-Fighter-SOAR-0.3.0-/Bayezid%20Fighter/src/intelligence/linuxTelemetryDaemon.js)) that tracks auth and execution logs (`/var/log/auth.log`) to stream SSH/sudo telemetry directly into the central SQLite database.
+* **Linux Telemetry Streamer**: Added a dedicated telemetry daemon (`linuxTelemetryDaemon.js`) that tracks auth and execution logs (`/var/log/auth.log`) to stream SSH/sudo telemetry directly into the central SQLite database.
 
-* **Multi-Tenant Guest Sandbox Personalization**: Built [guestMemoryManager.js](file:///c:/Users/ahmed/OneDrive/Documents/GitHub/Bayezid-Fighter-SOAR-0.3.0-/Bayezid%20Fighter/src/memory_systems/guestMemoryManager.js) to manage isolated, custom conversational contexts, nicknames, and roleplay preferences for non-admin guests talking to the Wingman Telegram gateway.
+* **Multi-Tenant Guest Sandbox Personalization**: Built `guestMemoryManager.js` to manage isolated, custom conversational contexts, nicknames, and roleplay preferences for non-admin guests talking to the Wingman Telegram gateway.
+
+* **Production Clean Up & Audit**: Executed automated clean up scripts for production to optimize container deployments. Cleaned unused ML weight files into `/ml_engine/models/`, standardized `/src/ir_engine/` onto Javascript strictly. Updated and tightly bound the `.dockerignore` and `.gitignore` file properties to accurately block out caches, data weights, log dumps and `telemetry.db` files.  
+
+* **End-to-End Ultimate Wargame Suite Verification**: Integrated complete APT E2E Simulation within `/tests/e2e/ultimate_wargame.test.js` mimicking actual Breach Ingestion -> Red Swarm Escalation -> Blue Swarm Intervention -> SOAR routing to execute zero day APT simulation correctly on the `IncidentCommander` with 100% confidence.
 
 ---
 
@@ -314,3 +318,4 @@ Developed by: **Ahmed Mo'men Ahmed** | 2026.
 <p align="center">
 <img src="assets/FL.png" width="300" alt="Bayezid Fighter Logo">
 <br>
+</p>
