@@ -1,20 +1,47 @@
-node_modules
-.env
-/generated/prisma
-bayezid_master.key
-.claude/
-verification_key.json
-sandbox/
-brain_training_data/*.jsonl
+# 1. Dependencies & Framework Caches
+node_modules/
+__pycache__/
+*.py[cod]
+.*_cache/
+.pytest_cache/
+.nyc_output/
+coverage/
 
-/archive_legacy_tests/
-/reports/
+# 2. Databases & Local State
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
 telemetry.db
 
-# Production Ignore
+# 3. Machine Learning Weights & Artifacts
+*.pkl
+*.pth
+*.pt
+*.onnx
+
+# 4. Logs & OS Artifacts
+*.log
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+
+# 5. Secrets & Environment
+.env
+*.pem
+encryption_key
+bayezid_master.key
+verification_key.json
+
+# 6. Bayezid Project Specifics & Production Ignored
+/generated/prisma
+.claude/
+sandbox/
+brain_training_data/*.jsonl
+/archive_legacy_tests/
+/reports/
 /tests/
 jest.config.js
 pytest.ini
 scripts/clean_env.js
-*.pkl
-*.pth
